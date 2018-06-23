@@ -1,0 +1,23 @@
+// Whitelist IPs proto
+syntax = "proto3";
+option go_package = "github.com/wogri/captive_portal/whitelist";
+
+package whitelist;
+
+service Whitelist {
+  rpc Transfer (stream WhitelistRequest) returns (stream WhitelistReply) {}
+}
+
+message WhitelistRequest {
+  int64 attempt = 1;
+}
+
+message WhitelistReply {
+  repeated WhitelistEntry whitelist = 1;
+}
+
+message WhitelistEntry {
+  string ipv4_address = 1;
+  string ipv6_address = 2;
+	int64 valid_until = 3;
+}
