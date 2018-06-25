@@ -19,4 +19,5 @@ test:
 	go test ./...
 
 clean:
-	rm server/server client/client
+	rm -f server/server client/client
+

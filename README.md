@@ -44,6 +44,7 @@ After=network.target
 [Service]
 Type=simple
 ExecStart=/usr/local/bin/captive_portal_server --password_hash='$2a$14$.agEoHrc9zLMLlfBJy9LquGRhYcPfnV0sCnq6OLWN1uafbLU8IIOm' --redirect_success_url=https://my.webpage.com/hello/success --redirect_failure_url=https://my.webpage.com/hello/failed --use_http_header_ip=X-Real-IP
+User=nobody
 
 Restart=always
 RestartSec=10
