@@ -78,24 +78,23 @@ func (w *ChannelHandler) AddNewChannel() *chan bool {
 
 func (w *ChannelHandler) RemoveChannel(dead_channel *chan bool) bool {
   w.mutex.Lock()
+  defer w.mutex.Unlock()
   for index, channel := range w.channels {
     if channel == dead_channel {
       w.channels = append(w.channels[:index], w.channels[index + 1:]...)
-      w.mutex.Unlock()
       return true
     }
   }
-  w.mutex.Unlock()
   return false
 }
 
 func (w *ChannelHandler) PingChannels() {
   // sends every channel a true, to wakeup the waiting client threads.
   w.mutex.Lock()
+  defer w.mutex.Unlock()
   for _, channel := range w.channels {
     *channel <- true
   }
-  w.mutex.Unlock()
 }
 
 func HashPassword(password string) (string, error) {
@@ -111,18 +110,19 @@ func CheckPasswordHash(password string, hash string) bool {
 func expire_whitelist(list *pb.WhitelistReply, now int64) {
 	newlist := &pb.WhitelistReply{}
 	whitelist_reply_mutex.Lock()
+	defer whitelist_reply_mutex.Unlock()
 	for _, entry := range list.Whitelist {
 		if entry.ValidUntil > now {
 			newlist.Whitelist = append(newlist.Whitelist, entry)
 		}
 	}
-	whitelist_reply_mutex.Unlock()
 	*list = *newlist
 }
 func dedup_whitelist(list *pb.WhitelistReply) {
 	mymap := make(map[string]bool)
 	newlist := &pb.WhitelistReply{}
 	whitelist_reply_mutex.Lock()
+	defer whitelist_reply_mutex.Unlock()
 	// Go through whitelist in reverse order, so if somebody updates an existing
 	// element, it gets the latest valid_until element.
 	for i := len(list.Whitelist) - 1; i >= 0; i-- {
@@ -142,7 +142,6 @@ func dedup_whitelist(list *pb.WhitelistReply) {
 		}
 	}
 	*list = *newlist
-	whitelist_reply_mutex.Unlock()
 }
 
 func parse_whitelist_entry(ip string) (*pb.WhitelistEntry, error) {
