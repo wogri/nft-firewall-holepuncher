@@ -21,3 +21,6 @@ test:
 clean:
 	rm -f server/server client/client
 
+fmt:
+	gofmt -w server/server.go server/server_test.go client/client.go client/client_test.go
+

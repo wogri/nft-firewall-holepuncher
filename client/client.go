@@ -52,35 +52,35 @@ var (
 )
 
 func build_command(entry *pb.WhitelistEntry) *exec.Cmd {
-  timeout := entry.ValidUntil - int64(time.Now().Unix())
-  // There's a chance that by when we receive the data it is not valid
-  // anymore. Ignore these fields.
-  if timeout <= 0 {
-    return nil
-  }
-  timeout_in_sec := strconv.FormatInt(timeout, 10) + "s"
-  var set_name string
-  var addr string
-  if temp_addr := entry.GetIpv4Address(); temp_addr != "" {
-    set_name = *nft_ipv4_set_name
-    addr = temp_addr
-  }
-  if temp_addr := entry.GetIpv6Address(); temp_addr != "" {
-    set_name = *nft_ipv6_set_name
-    addr = temp_addr
-  }
-  return exec.Command(*nft_path, "add", "element", "inet",
-    *nft_table_name, set_name, "{", addr, "timeout",
-    timeout_in_sec, "}")
+	timeout := entry.ValidUntil - int64(time.Now().Unix())
+	// There's a chance that by when we receive the data it is not valid
+	// anymore. Ignore these fields.
+	if timeout <= 0 {
+		return nil
+	}
+	timeout_in_sec := strconv.FormatInt(timeout, 10) + "s"
+	var set_name string
+	var addr string
+	if temp_addr := entry.GetIpv4Address(); temp_addr != "" {
+		set_name = *nft_ipv4_set_name
+		addr = temp_addr
+	}
+	if temp_addr := entry.GetIpv6Address(); temp_addr != "" {
+		set_name = *nft_ipv6_set_name
+		addr = temp_addr
+	}
+	return exec.Command(*nft_path, "add", "element", "inet",
+		*nft_table_name, set_name, "{", addr, "timeout",
+		timeout_in_sec, "}")
 
 }
 
 func send_whitelist_to_nftables(whitelist []*pb.WhitelistEntry) {
 	for _, entry := range whitelist {
-    cmd := build_command(entry)
-    if cmd == nil {
-      continue
-    }
+		cmd := build_command(entry)
+		if cmd == nil {
+			continue
+		}
 		log.Printf("Executing: # %v", strings.Join(cmd.Args, " "))
 
 		if *firewall_mode == "nft" {
