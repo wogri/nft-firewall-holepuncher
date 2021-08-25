@@ -21,7 +21,7 @@ package main
 import (
   "testing"
   "sync"
-	pb "github.com/wogri/captive_portal/proto"
+	pb "github.com/wogri/captive_portal/whitelist"
 )
 
 type ComparableWhitelistEntry pb.WhitelistEntry
