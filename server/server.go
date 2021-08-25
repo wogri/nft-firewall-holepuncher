@@ -53,7 +53,9 @@ var (
 	channel_handler *ChannelHandler
 )
 
-type whitelistServer struct{}
+type whitelistServer struct{
+  pb.UnimplementedWhitelistServer
+}
 
 type RegexParseError struct {
 	Problem string
