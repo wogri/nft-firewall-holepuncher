@@ -29,7 +29,7 @@ import (
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 
-	pb "github.com/wogri/captive_portal/proto"
+	pb "github.com/wogri/nft-firewall-holepuncher/whitelist"
 )
 
 var (

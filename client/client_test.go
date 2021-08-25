@@ -20,7 +20,7 @@ package main
 
 import (
 	"fmt"
-	pb "github.com/wogri/captive_portal/whitelist"
+	pb "github.com/wogri/nft-firewall-holepuncher/whitelist"
 	"reflect"
 	"testing"
 	"time"
