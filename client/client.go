@@ -29,7 +29,7 @@ import (
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 
-	pb "github.com/wogri/captive_portal/whitelist"
+	pb "github.com/wogri/captive_portal/proto"
 )
 
 var (

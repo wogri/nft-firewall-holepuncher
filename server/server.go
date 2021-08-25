@@ -20,7 +20,7 @@ package main
 
 import (
 	"flag"
-	pb "github.com/wogri/captive_portal/whitelist"
+	pb "github.com/wogri/captive_portal/proto"
 	"golang.org/x/crypto/bcrypt"
 	"google.golang.org/grpc"
 	"log"

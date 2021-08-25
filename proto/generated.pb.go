@@ -1,1 +1,0 @@
-/home/wolf/go/src/github.com/wogri/captive_portal/whitelist/whitelist.pb.go
