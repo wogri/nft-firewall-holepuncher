@@ -5,9 +5,9 @@ RUN apk update && apk upgrade && apk add --no-cache ca-certificates make
 RUN update-ca-certificates
 
 WORKDIR /build/server
-RUN make
+RUN make static
 WORKDIR /build/client
-RUN make
+RUN make static
 
 FROM scratch
 COPY --from=builder /build/server/static /server
