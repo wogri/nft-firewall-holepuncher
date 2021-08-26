@@ -37,6 +37,8 @@ var (
 		"server_address", "localhost:8080", "Server Address (Dns + Port)")
 	nft_table_name = flag.String(
 		"nft_table_name", "filter", "NFT Table name that contains the named sets")
+	nft_table_family = flag.String(
+		"nft_table_family", "filter", "NFT Table family (bridge, inet, ip, arp, ip6, netdev)")
 	nft_ipv4_set_name = flag.String(
 		"nft_ipv4_set_name", "trusted_set",
 		"NFT set name name that receives ipv6 addresses from this binary")
@@ -69,7 +71,7 @@ func build_command(entry *pb.WhitelistEntry) *exec.Cmd {
 		set_name = *nft_ipv6_set_name
 		addr = temp_addr
 	}
-	return exec.Command(*nft_path, "add", "element", "inet",
+	return exec.Command(*nft_path, "add", "element", *nft_table_family,
 		*nft_table_name, set_name, "{", addr, "timeout",
 		timeout_in_sec, "}")
 

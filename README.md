@@ -85,7 +85,7 @@ The client needs to run on the firewall that runs nftables, and it needs to run 
 
 
 ### Installing dependencies and building the binary
-You will need grpc to build this binary. You can find the instructions how to download and build grpc here: https://grpc.io/docs/quickstart/go.html
+You will need grpc to change the protos of this binary. You can find the instructions how to download and build grpc here: https://grpc.io/docs/quickstart/go.html
 
 Beyond that the bcrypt library will also be needed. 
 TL;DR instructions how to install the dependencies without reading the linked grpc quickstart guide above: 
@@ -98,24 +98,18 @@ Visit https://github.com/google/protobuf/releases and download pre-compiled bina
 Install the required go libraries:
 
 ```
-$ go get -u google.golang.org/grpc
-$ go get -u github.com/golang/protobuf/protoc-gen-go
-$ export PATH=$PATH:$GOPATH/bin
-$ go get -u golang.org/x/crypto/bcrypt
-
+$ go mod tidy
 ```
 
 Building the binary should then be easy:
 
 ```
-$ make all
+$ make
 ```
-
-This will run the unit tests, build the protocol buffer source, put it into your ~/go/src directory, and then build the binaries depending on these.
 
 ### NFTables
 
-All the captive-portal-client is interested in are named sets, one for IPv4 and one for IPv6. It does not care about your any actual firewall rules. Also if you don't have IPv6 in your nftables setup your client will still work.
+All the captive-portal-client is interested in are named sets, one for IPv4 and one for IPv6. It does not care about any actual firewall rules. Also if you don't have IPv6 in your nftables setup your client will still work.
 Here is my relevant nft setup in /etc/nftables.conf, the `trusted_set` is the the named set that will be populated by the captive-portal-client here:
 
 ```
